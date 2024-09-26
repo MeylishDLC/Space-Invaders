@@ -11,10 +11,14 @@ namespace Core
 {
     public class EnemiesMovement: MonoBehaviour
     {
+        
+        [Header("Screen Padding")]
+        [SerializeField] private float screenHorizontalPadding;
+        
         [Header("Movement Horizontal")] 
         [SerializeField] private float horizontalMoveValue;
         [SerializeField] private float horizontalMoveInterval;
-        [SerializeField] private float enemyHorizonalMoveInterval;
+        [SerializeField] private float enemyHorizontalMoveInterval;
         
         [Header("Movement Lower")]
         [SerializeField] private float moveLowerValue;
@@ -50,11 +54,13 @@ namespace Core
         private async UniTask MoveEnemiesHorizontally(CancellationToken token)
         {
             var allEnemies = GetAllCurrentEnemies();
-
+            var rightWallPos = Camera.main.orthographicSize * Camera.main.aspect;
+            
             if (_isMovingRight)
             {
                 var rightmostEnemy = allEnemies.OrderByDescending(e => e.transform.position.x).FirstOrDefault();
-                if (rightmostEnemy != null && rightmostEnemy.transform.position.x + horizontalMoveValue > Camera.main.orthographicSize * Camera.main.aspect)
+                if (rightmostEnemy != null && rightmostEnemy.transform.position.x + horizontalMoveValue 
+                    > rightWallPos - screenHorizontalPadding)
                 {
                     _isMovingRight = false;
                     await MoveEnemiesAsync(); 
@@ -63,22 +69,18 @@ namespace Core
             else
             {
                 var leftmostEnemy = allEnemies.OrderBy(e => e.transform.position.x).FirstOrDefault();
-                if (leftmostEnemy != null && leftmostEnemy.transform.position.x - horizontalMoveValue < -Camera.main.orthographicSize * Camera.main.aspect)
+                if (leftmostEnemy != null && leftmostEnemy.transform.position.x - horizontalMoveValue 
+                    < -rightWallPos + screenHorizontalPadding)
                 {
                     _isMovingRight = true;
                     await MoveEnemiesAsync(); 
                 }
             }
 
-            foreach (var enemy in allEnemies)
+            foreach (var enemy in allEnemies.Where(enemy => enemy != null))
             {
-                if (enemy == null)
-                {
-                    continue;
-                }
-                
                 enemy.transform.position += new Vector3(_isMovingRight ? horizontalMoveValue : -horizontalMoveValue, 0, 0);
-                await UniTask.Delay(TimeSpan.FromSeconds(enemyHorizonalMoveInterval), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(enemyHorizontalMoveInterval), cancellationToken: token);
             }
         }
         private List<GameObject> GetAllCurrentEnemies()
