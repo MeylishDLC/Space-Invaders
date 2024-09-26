@@ -32,9 +32,14 @@ namespace Combat
         private async UniTask ShootWithIntervalAsync(CancellationToken token)
         {
             _canShoot = false;
-            Object.Instantiate(_bulletPrefab, _attackerTransform.position, Quaternion.identity);
+            
+            if (_attackerTransform != null)
+            {
+                Object.Instantiate(_bulletPrefab, _attackerTransform.position, Quaternion.identity);
+            }
             await UniTask.Delay(TimeSpan.FromSeconds(_shootingInterval), cancellationToken: token);
             _canShoot = true;
+
         }
     }
 }

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075c8054247b42b6a0973e14a6802829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingInterval: 3
+  shootingInterval: 5
   bulletPrefab: {fileID: 4549458312990692366, guid: 0feb2aeb6297b8f4b8b94fb03ac1d7f1, type: 3}
 --- !u!61 &1154583321578033538
 BoxCollider2D:

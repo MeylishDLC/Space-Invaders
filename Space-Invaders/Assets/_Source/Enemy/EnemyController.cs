@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using Combat;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,11 +17,18 @@ namespace Enemy
         private void Start()
         {
             _enemyAttack = new Attack(shootingInterval, bulletPrefab.gameObject, gameObject.transform);
+            StartAttackLoop(CancellationToken.None).Forget();
         }
 
-        private void Update()
+        private async UniTask StartAttackLoop(CancellationToken token)
         {
-            _enemyAttack.Shoot();
+            await UniTask.Delay(TimeSpan.FromSeconds(shootingInterval), cancellationToken: token);
+            
+            while (gameObject != null)
+            {
+                _enemyAttack.Shoot();
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
         }
     }
 }
