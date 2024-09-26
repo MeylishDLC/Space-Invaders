@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Core
@@ -12,7 +13,7 @@ namespace Core
         [SerializeField] private float initialRowYPosition;
         [SerializeField] private Transform spawnParent;
         
-        private void Start()
+        private void Awake()
         {
             SpawnAllTypesOfEnemies();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Enemy;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -16,8 +17,9 @@ namespace Core
         [SerializeField] private float screenHorizontalPadding;
         
         [Header("Movement Horizontal")] 
-        [SerializeField] private float horizontalMoveValue;
-        [SerializeField] private float horizontalMoveInterval;
+        [SerializeField] private float horizontalMoveValue; 
+        [SerializeField] private float horizontalMoveSpeed;
+        [SerializeField] private float moveSpeedIncrease;
         [SerializeField] private float enemyHorizontalMoveInterval;
         
         [Header("Movement Lower")]
@@ -25,9 +27,12 @@ namespace Core
         [SerializeField] private float delayBetweenEnemyMoveLower;
 
         private bool _isMovingRight;
+        private float _currentMoveSpeed;
         private void Start()
         {
+            _currentMoveSpeed = horizontalMoveSpeed;
             MoveEnemiesHorizontallyCycle(CancellationToken.None).Forget();
+            SubscribeOnEvents();
         }
         private async UniTask MoveEnemiesAsync()
         {
@@ -46,7 +51,7 @@ namespace Core
         {
             while (!token.IsCancellationRequested)
             {
-                await UniTask.Delay(TimeSpan.FromSeconds(horizontalMoveInterval), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(_currentMoveSpeed), cancellationToken: token);
                 await MoveEnemiesHorizontally(token);
             }
         }
@@ -89,6 +94,30 @@ namespace Core
 
             var childrenList = allChildren.Select(child => child.gameObject).ToList();
             return childrenList;
+        }
+
+        private void SpeedUpEnemies(EnemyController deadEnemy)
+        {
+            deadEnemy.OnEnemyDeath -= SpeedUpEnemies;
+            
+            _currentMoveSpeed -= moveSpeedIncrease;
+            if (_currentMoveSpeed < 0)
+            {
+                _currentMoveSpeed = 0.0001f;
+            }
+        }
+        
+        private void SubscribeOnEvents()
+        {
+            var enemyObjects = GetAllCurrentEnemies();
+            foreach (var enemy in enemyObjects)
+            {
+                var enemyController =  enemy.GetComponent<EnemyController>();
+                if (enemyController != null)
+                {
+                    enemyController.OnEnemyDeath += SpeedUpEnemies;
+                }
+            }
         }
     }
 }

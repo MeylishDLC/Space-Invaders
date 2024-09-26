@@ -658,7 +658,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenHorizontalPadding: 0.3
   horizontalMoveValue: 0.1
-  horizontalMoveInterval: 1
+  horizontalMoveSpeed: 1
+  moveSpeedIncrease: 0.02
   enemyHorizontalMoveInterval: 0.02
   moveLowerValue: 1
   delayBetweenEnemyMoveLower: 0.05

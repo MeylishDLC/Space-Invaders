@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Enemy;
+using UnityEngine;
 
 namespace Combat
 {
@@ -18,8 +19,7 @@ namespace Combat
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                //todo speed up all enemies 
-                Destroy(other.gameObject);
+                other.GetComponent<EnemyController>().Die();
                 Destroy(gameObject);
             }
         }

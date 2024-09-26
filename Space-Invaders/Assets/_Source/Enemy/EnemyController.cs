@@ -9,6 +9,8 @@ namespace Enemy
 {
     public class EnemyController: MonoBehaviour
     {
+        public event Action<EnemyController> OnEnemyDeath;
+        
         [SerializeField] private float shootingInterval;
         [SerializeField] private EnemyBullet bulletPrefab;
         
@@ -19,7 +21,11 @@ namespace Enemy
             _enemyAttack = new Attack(shootingInterval, bulletPrefab.gameObject, gameObject.transform);
             StartAttackLoop(CancellationToken.None).Forget();
         }
-
+        public void Die()
+        {
+            OnEnemyDeath?.Invoke(this);
+            Destroy(gameObject);
+        }
         private async UniTask StartAttackLoop(CancellationToken token)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(shootingInterval), cancellationToken: token);
