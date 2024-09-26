@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  bulletPrefab: {fileID: 9151244674880794139, guid: 16ffbb414f09da7449c391e87eeaaabb, type: 3}
+  shootingInterval: 1
 --- !u!50 &88443489
 Rigidbody2D:
   serializedVersion: 4

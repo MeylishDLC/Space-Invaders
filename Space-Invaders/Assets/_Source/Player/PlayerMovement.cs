@@ -1,31 +1,27 @@
-using System;
-using Input;
+﻿using Input;
 using UnityEngine;
-using Zenject;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement
     {
-        [SerializeField] private float moveSpeed;
+        private readonly float _moveSpeed;
+        private readonly InputListener _inputListener;
+        private readonly Rigidbody2D _rb;
         
-        private InputListener _inputListener;
-        private Rigidbody2D _rb;
         private Vector2 _direction;
-
-        [Inject]
-        public void Initialize(InputListener inputListener)
+        public PlayerMovement(float moveSpeed, InputListener inputListener, Rigidbody2D rb)
         {
+            _moveSpeed = moveSpeed;
             _inputListener = inputListener;
-            _rb = GetComponent<Rigidbody2D>();
+            _rb = rb;
         }
-        private void FixedUpdate()
+
+        public void HandleMovement()
         {
             _direction = _inputListener.GetMoveInput();
             
-            _rb.velocity = new Vector2(_direction.x, _direction.y).normalized * moveSpeed;
+            _rb.velocity = new Vector2(_direction.x, _direction.y).normalized * _moveSpeed;
         }
-        
     }
 }
