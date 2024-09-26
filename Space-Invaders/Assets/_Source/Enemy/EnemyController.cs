@@ -24,7 +24,7 @@ namespace Enemy
         {
             await UniTask.Delay(TimeSpan.FromSeconds(shootingInterval), cancellationToken: token);
             
-            while (gameObject != null)
+            while (this != null)
             {
                 _enemyAttack.Shoot();
                 await UniTask.Yield(PlayerLoopTiming.Update);
