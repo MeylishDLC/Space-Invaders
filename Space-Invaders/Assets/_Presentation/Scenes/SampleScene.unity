@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   bulletPrefab: {fileID: 9151244674880794139, guid: 16ffbb414f09da7449c391e87eeaaabb, type: 3}
-  shootingInterval: 1
+  shootingInterval: 0.5
 --- !u!50 &88443489
 Rigidbody2D:
   serializedVersion: 4
@@ -484,9 +484,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567069f6ebdc4c739f8b2677d0ff139f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3075675594929110423, guid: fd5294244faee5544bb9f3ad5b414809, type: 3}
-  numberOfEnemies: 10
+  enemyPrefabs:
+  - {fileID: 3075675594929110423, guid: fd5294244faee5544bb9f3ad5b414809, type: 3}
+  - {fileID: 6875049209229952061, guid: 559fe81b8e20d994f8915f92f65cd18b, type: 3}
+  - {fileID: 6875049209229952061, guid: 559fe81b8e20d994f8915f92f65cd18b, type: 3}
+  - {fileID: 7515937613711723853, guid: cdbc258aef1b92d4cb68d74443c114f4, type: 3}
+  - {fileID: 7515937613711723853, guid: cdbc258aef1b92d4cb68d74443c114f4, type: 3}
+  numberOfEnemiesInRow: 10
   spacing: 1
+  rowSpacing: 1
+  initialRowYPosition: 4
   spawnParent: {fileID: 1677527428}
 --- !u!1 &1494418317
 GameObject:
