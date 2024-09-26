@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Threading;
-using Combat;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Player
+namespace Combat
 {
-    public class PlayerCombat
+    public class Attack
     {
         private readonly float _shootingInterval;
-        private readonly PlayerBullet _bulletPrefab;
-        private readonly Transform _playerTransform;
+        private readonly GameObject _bulletPrefab;
+        private readonly Transform _attackerTransform;
 
         private bool _canShoot = true;
-        public PlayerCombat(float shootingInterval, PlayerBullet bulletPrefab, Transform playerTransform)
+        
+        public Attack(float shootingInterval, GameObject bulletPrefab, Transform attackerTransform)
         {
             _shootingInterval = shootingInterval;
             _bulletPrefab = bulletPrefab;
-            _playerTransform = playerTransform;
+            _attackerTransform = attackerTransform;
         }
+        
         public void Shoot()
         {
             if (_canShoot)
@@ -31,7 +32,7 @@ namespace Player
         private async UniTask ShootWithIntervalAsync(CancellationToken token)
         {
             _canShoot = false;
-            Object.Instantiate(_bulletPrefab, _playerTransform.position, Quaternion.identity);
+            Object.Instantiate(_bulletPrefab, _attackerTransform.position, Quaternion.identity);
             await UniTask.Delay(TimeSpan.FromSeconds(_shootingInterval), cancellationToken: token);
             _canShoot = true;
         }

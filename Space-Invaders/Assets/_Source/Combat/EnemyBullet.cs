@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
 namespace Combat
 {
-    public class PlayerBullet: Bullet
+    public class EnemyBullet: Bullet
     {
         protected override void FixedUpdate()
         {
-            _rb.velocity = transform.up * speed;
+            _rb.velocity = -transform.up * speed;
         }
-
         protected override void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -16,11 +16,9 @@ namespace Combat
                 Destroy(gameObject);
             }
 
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                //todo speed up all enemies 
-                Destroy(other.gameObject);
-                Destroy(gameObject);
+                other.GetComponent<PlayerHealth>().TakeDamage(damage);
             }
         }
     }

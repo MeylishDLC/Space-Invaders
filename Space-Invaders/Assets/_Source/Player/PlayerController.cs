@@ -17,7 +17,7 @@ namespace Player
         private Rigidbody2D _rb;
 
         private PlayerMovement _playerMovement;
-        private PlayerCombat _playerCombat;
+        private Attack _playerAttack;
 
         [Inject]
         public void Initialize(InputListener inputListener)
@@ -26,7 +26,7 @@ namespace Player
             _rb = GetComponent<Rigidbody2D>();
 
             _playerMovement = new PlayerMovement(moveSpeed, _inputListener, _rb);
-            _playerCombat = new PlayerCombat(shootingInterval, bulletPrefab, gameObject.transform);
+            _playerAttack = new Attack(shootingInterval, bulletPrefab.gameObject, gameObject.transform);
         }
         private void FixedUpdate()
         {
@@ -37,7 +37,7 @@ namespace Player
         {
             if (_inputListener.IsFirePressed())
             {
-                _playerCombat.Shoot();
+                _playerAttack.Shoot();
             }
         }
     }
