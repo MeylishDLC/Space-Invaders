@@ -31,6 +31,11 @@ namespace UI
         {
             if (newHealthAmount <= 0)
             {
+                foreach (var live in _livesImages)
+                {
+                    live.gameObject.SetActive(false);
+                }
+                
                 OnGameOver?.Invoke();
                 _playerHealth.OnPlayerHealthChanged -= RefreshLives;
             }

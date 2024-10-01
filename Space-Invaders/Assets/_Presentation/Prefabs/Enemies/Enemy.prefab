@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1949147051216767711}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0041, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075c8054247b42b6a0973e14a6802829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ScoreAmount>k__BackingField: 30
   minShootingInterval: 10
   maxShootingInterval: 35
   bulletPrefab: {fileID: 4549458312990692366, guid: 0feb2aeb6297b8f4b8b94fb03ac1d7f1, type: 3}

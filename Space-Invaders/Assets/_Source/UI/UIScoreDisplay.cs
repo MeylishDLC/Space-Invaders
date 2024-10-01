@@ -1,23 +1,29 @@
-﻿using Enemy;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Enemy;
 using TMPro;
+using UnityEngine;
 
 namespace UI
 {
     public class UIScoreDisplay
     {
-        private EnemyController[] _allEnemies;
+        private List<EnemyController> _allEnemies = new();
         private UIPlayerHealthDisplay _healthDisplay;
         private TMP_Text _scoreText;
         private int _currentScore;
         
-        public UIScoreDisplay(UIPlayerHealthDisplay healthDisplay, TMP_Text scoreText, EnemyController[] allEnemies)
+        public UIScoreDisplay(UIPlayerHealthDisplay healthDisplay, TMP_Text scoreText, Transform enemiesTransform)
         {
             _scoreText = scoreText;
             _scoreText.text = "0";
             _currentScore = 0;
             
+            _healthDisplay = healthDisplay;
             SubscribeOnEvents();
-            healthDisplay.OnGameOver += UnsubscribeOnEvents;
+            _healthDisplay.OnGameOver += UnsubscribeOnEvents;
+
+            _allEnemies = GetEnemyControllers(enemiesTransform);
         }
         private void RefreshScore(EnemyController enemyDied)
         {
@@ -44,6 +50,11 @@ namespace UI
                     enemy.OnEnemyDeath += RefreshScore;
                 }
             }
+        }
+        private List<EnemyController> GetEnemyControllers(Transform enemyContainer)
+        {
+            var controllers = enemyContainer.GetComponentsInChildren<EnemyController>();
+            return controllers.ToList();
         }
     }
 }

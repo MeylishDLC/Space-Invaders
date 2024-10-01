@@ -1140,6 +1140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputListener: {fileID: 1801041801}
+  playerHealth: {fileID: 88443490}
 --- !u!1 &1002182181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,6 +1273,56 @@ MonoBehaviour:
   rowSpacing: 1
   initialRowYPosition: 4
   spawnParent: {fileID: 1677527428}
+--- !u!1 &1170401898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170401899}
+  - component: {fileID: 1170401900}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1170401899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170401898}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1582107519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1170401900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170401898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08676e3dc5d34f61a23992d4d22b84c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livesImages:
+  - {fileID: 1769188454}
+  - {fileID: 432220907}
+  - {fileID: 812762104}
+  scoreText: {fileID: 1725481123}
+  enemiesContainer: {fileID: 1677527428}
 --- !u!1 &1494418317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,6 +1438,7 @@ Transform:
   m_Children:
   - {fileID: 1801041799}
   - {fileID: 1056278629}
+  - {fileID: 1170401899}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1677527427

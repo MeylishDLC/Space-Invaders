@@ -12,7 +12,6 @@ namespace Core
 {
     public class EnemiesMovement: MonoBehaviour
     {
-        
         [Header("Screen")]
         [SerializeField] private float screenHorizontalPadding;
         [SerializeField] private Camera mainCamera;
@@ -29,7 +28,7 @@ namespace Core
 
         private bool _isMovingRight;
         private float _currentMoveSpeed;
-
+        private List<GameObject> _allEnemies;
         private void OnValidate()
         {
             if (Camera.main != null)
@@ -46,11 +45,11 @@ namespace Core
         }
         private async UniTask MoveEnemiesAsync(CancellationToken token)
         {
-            var allEnemies = GetAllCurrentEnemies();
-            allEnemies.Reverse();
-            allEnemies.Remove(allEnemies.ElementAt(allEnemies.Count - 1));
+            _allEnemies = GetAllCurrentEnemies();
+            _allEnemies.Reverse();
+            _allEnemies.Remove(_allEnemies.ElementAt(_allEnemies.Count - 1));
             
-            foreach (var enemy in allEnemies.Where(enemy => enemy != null))
+            foreach (var enemy in _allEnemies.Where(enemy => enemy != null))
             {
                 enemy.transform.position += new Vector3(0, -moveLowerValue, 0);
                 await UniTask.Delay(TimeSpan.FromSeconds(delayBetweenEnemyMoveLower), cancellationToken: token);
@@ -68,12 +67,12 @@ namespace Core
 
         private async UniTask MoveEnemiesHorizontally(CancellationToken token)
         {
-            var allEnemies = GetAllCurrentEnemies();
+            _allEnemies = GetAllCurrentEnemies();
             var rightWallPos = mainCamera.orthographicSize * mainCamera.aspect;
             
             if (_isMovingRight)
             {
-                var rightmostEnemy = allEnemies.OrderByDescending(e => e.transform.position.x).FirstOrDefault();
+                var rightmostEnemy = _allEnemies.OrderByDescending(e => e.transform.position.x).FirstOrDefault();
                 if (rightmostEnemy != null && rightmostEnemy.transform.position.x + horizontalMoveValue 
                     > rightWallPos - screenHorizontalPadding)
                 {
@@ -83,7 +82,7 @@ namespace Core
             }
             else
             {
-                var leftmostEnemy = allEnemies.OrderBy(e => e.transform.position.x).FirstOrDefault();
+                var leftmostEnemy = _allEnemies.OrderBy(e => e.transform.position.x).FirstOrDefault();
                 if (leftmostEnemy != null && leftmostEnemy.transform.position.x - horizontalMoveValue 
                     < -rightWallPos + screenHorizontalPadding)
                 {
@@ -92,7 +91,7 @@ namespace Core
                 }
             }
 
-            foreach (var enemy in allEnemies.Where(enemy => enemy != null))
+            foreach (var enemy in _allEnemies.Where(enemy => enemy != null))
             {
                 enemy.transform.position += new Vector3(_isMovingRight ? horizontalMoveValue : -horizontalMoveValue, 0, 0);
                 await UniTask.Delay(TimeSpan.FromSeconds(enemyHorizontalMoveInterval), cancellationToken: token);
@@ -100,9 +99,11 @@ namespace Core
         }
         private List<GameObject> GetAllCurrentEnemies()
         {
-            var allChildren = GetComponentsInChildren<Transform>();
+            var allEnemies = GetComponentsInChildren<EnemyController>();
+            
+            var enemiesTransforms = allEnemies.Select(enemy => enemy.GetComponent<Transform>()).ToList();
 
-            var childrenList = allChildren.Select(child => child.gameObject).ToList();
+            var childrenList = enemiesTransforms.Select(child => child.gameObject).ToList();
             return childrenList;
         }
 

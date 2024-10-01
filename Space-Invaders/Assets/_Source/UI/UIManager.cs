@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Core;
+using Enemy;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -14,14 +17,21 @@ namespace UI
 
         [Header("Score")] 
         [SerializeField] private TMP_Text scoreText;
+        [SerializeField] private Transform enemiesContainer;
 
         private UIPlayerHealthDisplay _healthDisplay;
+        private UIScoreDisplay _scoreDisplay;
+        private PlayerHealth _playerHealth;
 
         [Inject]
         public void Initialize(PlayerHealth playerHealth)
         {
-            _healthDisplay = new UIPlayerHealthDisplay(livesImages, playerHealth);
+            _playerHealth = playerHealth;
         }
-        
+        private void Start()
+        {
+            _healthDisplay = new UIPlayerHealthDisplay(livesImages, _playerHealth);
+            _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesContainer);
+        }
     }
 }
