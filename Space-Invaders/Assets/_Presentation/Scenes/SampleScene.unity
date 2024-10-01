@@ -267,7 +267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthAmount: 3
-  invincibilityDuration: 0
+  invincibilityDuration: 0.7
+  blinkDuration: 0.2
 --- !u!61 &88443491
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,9 +12,17 @@ namespace Player
         public event Action<int> OnPlayerHealthChanged;
         
         [SerializeField] private int healthAmount;
+        
+        [Header("Invincibility Display")]
         [SerializeField] private float invincibilityDuration;
+        [SerializeField] private float blinkDuration;
 
         private bool _canTakeDamage = true;
+        private SpriteRenderer _spriteRenderer;
+        private void Start()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
         public void TakeDamage(int damage)
         {
             if (!_canTakeDamage)
@@ -34,7 +43,13 @@ namespace Player
         private async UniTask BeInvincible(CancellationToken token)
         {
             _canTakeDamage = false;
-            await UniTask.Delay(TimeSpan.FromSeconds(invincibilityDuration), cancellationToken: token);
+
+            var loops = Convert.ToInt32(invincibilityDuration / blinkDuration);
+            await _spriteRenderer.DOFade(0, blinkDuration).SetLoops(loops).ToUniTask(cancellationToken: token);
+            
+            var color = _spriteRenderer.color;
+            _spriteRenderer.color = new Color(color.r, color.g, color.b, 1);
+
             _canTakeDamage = true;
         }
         public int GetPlayerHealth()
