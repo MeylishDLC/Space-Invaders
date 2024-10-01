@@ -17,7 +17,14 @@ namespace Player
                 healthAmount = 0;
                 //todo game over
             }
+            
+            Debug.Log($"Player health: {healthAmount}");
             OnPlayerHealthChanged?.Invoke(healthAmount);
+        }
+
+        public int GetPlayerHealth()
+        {
+            return healthAmount;
         }
     }
 }

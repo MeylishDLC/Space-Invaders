@@ -12,13 +12,14 @@ namespace Combat
         protected override void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Wall")
-                || other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                || other.gameObject.layer == LayerMask.NameToLayer("EnemyHitPoint"))
             {
                 Destroy(gameObject);
             }
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 other.GetComponent<PlayerHealth>().TakeDamage(damage);
+                Destroy(gameObject);
             }
         }
     }

@@ -44,7 +44,7 @@ namespace Core
             MoveEnemiesHorizontallyCycle(CancellationToken.None).Forget();
             SubscribeOnEvents();
         }
-        private async UniTask MoveEnemiesAsync()
+        private async UniTask MoveEnemiesAsync(CancellationToken token)
         {
             var allEnemies = GetAllCurrentEnemies();
             allEnemies.Reverse();
@@ -53,7 +53,7 @@ namespace Core
             foreach (var enemy in allEnemies.Where(enemy => enemy != null))
             {
                 enemy.transform.position += new Vector3(0, -moveLowerValue, 0);
-                await UniTask.Delay(TimeSpan.FromSeconds(delayBetweenEnemyMoveLower));
+                await UniTask.Delay(TimeSpan.FromSeconds(delayBetweenEnemyMoveLower), cancellationToken: token);
             }
         }
         
@@ -78,7 +78,7 @@ namespace Core
                     > rightWallPos - screenHorizontalPadding)
                 {
                     _isMovingRight = false;
-                    await MoveEnemiesAsync(); 
+                    await MoveEnemiesAsync(token); 
                 }
             }
             else
@@ -88,7 +88,7 @@ namespace Core
                     < -rightWallPos + screenHorizontalPadding)
                 {
                     _isMovingRight = true;
-                    await MoveEnemiesAsync(); 
+                    await MoveEnemiesAsync(token); 
                 }
             }
 

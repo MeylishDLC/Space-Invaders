@@ -9,10 +9,10 @@ namespace Combat
     public class Attack
     {
         private readonly float _shootingInterval;
-        private readonly GameObject _bulletPrefab;
-        private readonly Transform _attackerTransform;
+        protected readonly GameObject _bulletPrefab;
+        protected readonly Transform _attackerTransform;
 
-        private bool _canShoot = true;
+        protected bool _canShoot = true;
         
         public Attack(float shootingInterval, GameObject bulletPrefab, Transform attackerTransform)
         {
@@ -29,7 +29,7 @@ namespace Combat
             }
         }
 
-        private async UniTask ShootWithIntervalAsync(CancellationToken token)
+        protected virtual async UniTask ShootWithIntervalAsync(CancellationToken token)
         {
             _canShoot = false;
             
@@ -39,7 +39,6 @@ namespace Combat
             }
             await UniTask.Delay(TimeSpan.FromSeconds(_shootingInterval), cancellationToken: token);
             _canShoot = true;
-
         }
     }
 }
