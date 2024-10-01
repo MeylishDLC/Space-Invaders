@@ -13,8 +13,9 @@ namespace Core
     public class EnemiesMovement: MonoBehaviour
     {
         
-        [Header("Screen Padding")]
+        [Header("Screen")]
         [SerializeField] private float screenHorizontalPadding;
+        [SerializeField] private Camera mainCamera;
         
         [Header("Movement Horizontal")] 
         [SerializeField] private float horizontalMoveValue; 
@@ -28,6 +29,15 @@ namespace Core
 
         private bool _isMovingRight;
         private float _currentMoveSpeed;
+
+        private void OnValidate()
+        {
+            if (Camera.main != null)
+            {
+                mainCamera = Camera.main;
+            }
+        }
+
         private void Start()
         {
             _currentMoveSpeed = horizontalMoveSpeed;
@@ -59,7 +69,7 @@ namespace Core
         private async UniTask MoveEnemiesHorizontally(CancellationToken token)
         {
             var allEnemies = GetAllCurrentEnemies();
-            var rightWallPos = Camera.main.orthographicSize * Camera.main.aspect;
+            var rightWallPos = mainCamera.orthographicSize * mainCamera.aspect;
             
             if (_isMovingRight)
             {
