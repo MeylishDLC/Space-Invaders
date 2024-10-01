@@ -14,6 +14,7 @@ namespace Installers
         {
             BindInputListener();
             BindPlayerHealth();
+            BindSceneController();
         }
         private void BindInputListener()
         {
@@ -22,6 +23,10 @@ namespace Installers
         private void BindPlayerHealth()
         {
             Container.Bind<PlayerHealth>().FromInstance(playerHealth).AsSingle();
+        }
+        private void BindSceneController()
+        {
+            Container.Bind<SceneController>().AsSingle();
         }
     }
 }

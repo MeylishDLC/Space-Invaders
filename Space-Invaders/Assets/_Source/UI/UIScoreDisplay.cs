@@ -27,8 +27,6 @@ namespace UI
         }
         private void RefreshScore(EnemyController enemyDied)
         {
-            
-            
             _currentScore += enemyDied.ScoreAmount;
             _scoreText.text = _currentScore.ToString();
         }

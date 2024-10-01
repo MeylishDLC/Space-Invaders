@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core;
 using Enemy;
+using Input;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -20,19 +21,35 @@ namespace UI
         [SerializeField] private TMP_Text scoreText; 
         [SerializeField] private EnemiesMovement enemiesMovement;
 
+        [Header("Death Screen")] 
+        [SerializeField] private Image deathScreenImage;
+        [SerializeField] private Button retryButton;
+        
+        private SceneController _sceneController;
+        private InputListener _inputListener;
+        
         private UIPlayerHealthDisplay _healthDisplay;
         private UIScoreDisplay _scoreDisplay;
-        private PlayerHealth _playerHealth;
+        private DeathScreen _deathScreen;
 
         [Inject]
-        public void Initialize(PlayerHealth playerHealth)
+        public void Initialize(PlayerHealth playerHealth, SceneController sceneController, InputListener inputListener)
         {
-            _playerHealth = playerHealth;
+            _healthDisplay = new UIPlayerHealthDisplay(livesImages, playerHealth);
+            _sceneController = sceneController;
+            _inputListener = inputListener;
         }
         private void Start()
         {
-            _healthDisplay = new UIPlayerHealthDisplay(livesImages, _playerHealth);
             _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesMovement.AllEnemies);
+            _deathScreen = new DeathScreen(deathScreenImage, retryButton, _sceneController, _healthDisplay);
+        }
+        private void Update()
+        {
+            if (_inputListener.IsRestartPressed())
+            {
+                _sceneController.ReloadScene();
+            }
         }
     }
 }
