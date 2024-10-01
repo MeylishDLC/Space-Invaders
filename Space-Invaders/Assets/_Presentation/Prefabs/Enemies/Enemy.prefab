@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 6781746115263119032}
   - component: {fileID: 5530878632953137051}
   - component: {fileID: 1154583321578033538}
+  - component: {fileID: 6538933991200591578}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -177,9 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ScoreAmount>k__BackingField: 30
-  minShootingInterval: 5
-  maxShootingInterval: 15
+  minShootingInterval: 2
+  maxShootingInterval: 7
   bulletPrefab: {fileID: 4549458312990692366, guid: 0feb2aeb6297b8f4b8b94fb03ac1d7f1, type: 3}
+  timeBeforeDie: 0.3
 --- !u!61 &1154583321578033538
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -225,3 +227,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.08011922, y: 0.08025234}
   m_EdgeRadius: 0
+--- !u!95 &6538933991200591578
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075675594929110423}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c20b993b550c6bc46a3f58c70a2ec5f6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
