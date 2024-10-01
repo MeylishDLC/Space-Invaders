@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthAmount: 3
+  invincibilityDuration: 0
 --- !u!61 &88443491
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1322,7 +1323,7 @@ MonoBehaviour:
   - {fileID: 432220907}
   - {fileID: 812762104}
   scoreText: {fileID: 1725481123}
-  enemiesContainer: {fileID: 1677527428}
+  enemiesMovement: {fileID: 1677527429}
 --- !u!1 &1494418317
 GameObject:
   m_ObjectHideFlags: 0

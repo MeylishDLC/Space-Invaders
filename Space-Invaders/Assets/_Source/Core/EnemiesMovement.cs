@@ -12,6 +12,8 @@ namespace Core
 {
     public class EnemiesMovement: MonoBehaviour
     {
+        public IReadOnlyList<GameObject> AllEnemies => _allEnemies;
+        
         [Header("Screen")]
         [SerializeField] private float screenHorizontalPadding;
         [SerializeField] private Camera mainCamera;
@@ -36,7 +38,10 @@ namespace Core
                 mainCamera = Camera.main;
             }
         }
-
+        private void Awake()
+        {
+            _allEnemies = GetAllCurrentEnemies();
+        }
         private void Start()
         {
             _currentMoveSpeed = horizontalMoveSpeed;

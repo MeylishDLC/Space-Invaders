@@ -8,25 +8,27 @@ namespace UI
 {
     public class UIScoreDisplay
     {
-        private List<EnemyController> _allEnemies = new();
-        private UIPlayerHealthDisplay _healthDisplay;
-        private TMP_Text _scoreText;
+        private readonly List<EnemyController> _allEnemies;
+        private readonly UIPlayerHealthDisplay _healthDisplay;
+        private readonly TMP_Text _scoreText;
         private int _currentScore;
         
-        public UIScoreDisplay(UIPlayerHealthDisplay healthDisplay, TMP_Text scoreText, Transform enemiesTransform)
+        public UIScoreDisplay(UIPlayerHealthDisplay healthDisplay, TMP_Text scoreText, IEnumerable<GameObject> enemiesObjects)
         {
             _scoreText = scoreText;
             _scoreText.text = "0";
             _currentScore = 0;
             
             _healthDisplay = healthDisplay;
-            SubscribeOnEvents();
             _healthDisplay.OnGameOver += UnsubscribeOnEvents;
 
-            _allEnemies = GetEnemyControllers(enemiesTransform);
+            _allEnemies = GetEnemyControllers(enemiesObjects);
+            SubscribeOnEvents();
         }
         private void RefreshScore(EnemyController enemyDied)
         {
+            
+            
             _currentScore += enemyDied.ScoreAmount;
             _scoreText.text = _currentScore.ToString();
         }
@@ -51,9 +53,9 @@ namespace UI
                 }
             }
         }
-        private List<EnemyController> GetEnemyControllers(Transform enemyContainer)
+        private List<EnemyController> GetEnemyControllers(IEnumerable<GameObject> enemies)
         {
-            var controllers = enemyContainer.GetComponentsInChildren<EnemyController>();
+            var controllers = enemies.Select(c => c.GetComponent<EnemyController>());
             return controllers.ToList();
         }
     }

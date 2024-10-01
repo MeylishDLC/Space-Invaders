@@ -5,6 +5,7 @@ using Enemy;
 using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -16,8 +17,8 @@ namespace UI
         [SerializeField] private Image[] livesImages;
 
         [Header("Score")] 
-        [SerializeField] private TMP_Text scoreText;
-        [SerializeField] private Transform enemiesContainer;
+        [SerializeField] private TMP_Text scoreText; 
+        [SerializeField] private EnemiesMovement enemiesMovement;
 
         private UIPlayerHealthDisplay _healthDisplay;
         private UIScoreDisplay _scoreDisplay;
@@ -31,7 +32,7 @@ namespace UI
         private void Start()
         {
             _healthDisplay = new UIPlayerHealthDisplay(livesImages, _playerHealth);
-            _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesContainer);
+            _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesMovement.AllEnemies);
         }
     }
 }
