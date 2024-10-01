@@ -12,6 +12,7 @@ namespace Core
 {
     public class EnemiesMovement: MonoBehaviour
     {
+        public event Action OnAllEnemiesKilled;
         public IReadOnlyList<GameObject> AllEnemies => _allEnemies;
         
         [Header("Screen")]
@@ -52,7 +53,6 @@ namespace Core
         {
             _allEnemies = GetAllCurrentEnemies();
             _allEnemies.Reverse();
-            _allEnemies.Remove(_allEnemies.ElementAt(_allEnemies.Count - 1));
             
             foreach (var enemy in _allEnemies.Where(enemy => enemy != null))
             {
@@ -115,6 +115,12 @@ namespace Core
         private void SpeedUpEnemies(EnemyController deadEnemy)
         {
             deadEnemy.OnEnemyDeath -= SpeedUpEnemies;
+
+            if (AllEnemiesKilled())
+            {
+                OnAllEnemiesKilled?.Invoke();
+                return;
+            }
             
             _currentMoveSpeed -= moveSpeedIncrease;
             if (_currentMoveSpeed < 0)
@@ -122,7 +128,6 @@ namespace Core
                 _currentMoveSpeed = 0.0001f;
             }
         }
-        
         private void SubscribeOnEvents()
         {
             var enemyObjects = GetAllCurrentEnemies();
@@ -134,6 +139,25 @@ namespace Core
                     enemyController.OnEnemyDeath += SpeedUpEnemies;
                 }
             }
+        }
+
+        private bool AllEnemiesKilled()
+        {
+            _allEnemies = GetAllCurrentEnemies();
+            if (!_allEnemies.Any())
+            {
+                return true;
+            }
+
+            foreach (var enemy in _allEnemies)
+            {
+                if (enemy != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

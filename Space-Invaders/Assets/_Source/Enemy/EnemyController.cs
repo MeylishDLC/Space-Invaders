@@ -31,7 +31,8 @@ namespace Enemy
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player")
+                || other.gameObject.layer == LayerMask.NameToLayer("DeadZone"))
             {
                 other.gameObject.GetComponent<PlayerHealth>().TakeDamage(9999);
             }

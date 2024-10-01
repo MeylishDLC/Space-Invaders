@@ -1,4 +1,5 @@
 ﻿using Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,19 @@ namespace UI
     {
         private readonly Image _deathScreen;
         private readonly Button _retryButton;
+        
         private readonly SceneController _sceneController;
         private readonly UIPlayerHealthDisplay _healthDisplay;
         
-        public DeathScreen(Image deathScreen, Button retryButton, 
-            SceneController sceneController, UIPlayerHealthDisplay healthDisplay)
+        private readonly UIScoreDisplay _scoreDisplay;
+        private readonly TMP_Text _scoreText;
+        public DeathScreen(Image deathScreen, Button retryButton, TMP_Text scoreText, 
+            SceneController sceneController, UIPlayerHealthDisplay healthDisplay, UIScoreDisplay scoreDisplay)
         {
+            _scoreDisplay = scoreDisplay;
+            _scoreText = scoreText;
+            _scoreText.text = "score : 0";
+            
             _deathScreen = deathScreen;
             _deathScreen.gameObject.SetActive(false);
             
@@ -29,6 +37,7 @@ namespace UI
         {
             _sceneController.PauseGame();
             _deathScreen.gameObject.SetActive(true);
+            _scoreText.text = "score : " + $"{_scoreDisplay.CurrentScore}";
         }
         private void Retry()
         {

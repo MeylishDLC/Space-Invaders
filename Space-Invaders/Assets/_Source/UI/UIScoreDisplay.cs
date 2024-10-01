@@ -8,16 +8,16 @@ namespace UI
 {
     public class UIScoreDisplay
     {
+        public int CurrentScore { get; private set; }
+        
         private readonly List<EnemyController> _allEnemies;
         private readonly UIPlayerHealthDisplay _healthDisplay;
         private readonly TMP_Text _scoreText;
-        private int _currentScore;
-        
         public UIScoreDisplay(UIPlayerHealthDisplay healthDisplay, TMP_Text scoreText, IEnumerable<GameObject> enemiesObjects)
         {
             _scoreText = scoreText;
             _scoreText.text = "0";
-            _currentScore = 0;
+            CurrentScore = 0;
             
             _healthDisplay = healthDisplay;
             _healthDisplay.OnGameOver += UnsubscribeOnEvents;
@@ -27,8 +27,8 @@ namespace UI
         }
         private void RefreshScore(EnemyController enemyDied)
         {
-            _currentScore += enemyDied.ScoreAmount;
-            _scoreText.text = _currentScore.ToString();
+            CurrentScore += enemyDied.ScoreAmount;
+            _scoreText.text = CurrentScore.ToString();
         }
         private void UnsubscribeOnEvents()
         {

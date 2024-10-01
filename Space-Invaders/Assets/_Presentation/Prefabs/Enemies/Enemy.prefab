@@ -177,8 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ScoreAmount>k__BackingField: 30
-  minShootingInterval: 10
-  maxShootingInterval: 35
+  minShootingInterval: 5
+  maxShootingInterval: 15
   bulletPrefab: {fileID: 4549458312990692366, guid: 0feb2aeb6297b8f4b8b94fb03ac1d7f1, type: 3}
 --- !u!61 &1154583321578033538
 BoxCollider2D:

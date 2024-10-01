@@ -23,7 +23,13 @@ namespace UI
 
         [Header("Death Screen")] 
         [SerializeField] private Image deathScreenImage;
-        [SerializeField] private Button retryButton;
+        [SerializeField] private Button retryButtonLose;
+        [SerializeField] private TMP_Text scoreEarnedTextLose;
+
+        [Header("Win Screen")] 
+        [SerializeField] private Image winScreenImage;
+        [SerializeField] private Button retryButtonWin;
+        [SerializeField] private TMP_Text scoreEarnedTextWin;
         
         private SceneController _sceneController;
         private InputListener _inputListener;
@@ -31,6 +37,7 @@ namespace UI
         private UIPlayerHealthDisplay _healthDisplay;
         private UIScoreDisplay _scoreDisplay;
         private DeathScreen _deathScreen;
+        private WinScreen _winScreen;
 
         [Inject]
         public void Initialize(PlayerHealth playerHealth, SceneController sceneController, InputListener inputListener)
@@ -42,7 +49,12 @@ namespace UI
         private void Start()
         {
             _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesMovement.AllEnemies);
-            _deathScreen = new DeathScreen(deathScreenImage, retryButton, _sceneController, _healthDisplay);
+            
+            _deathScreen = new DeathScreen(deathScreenImage, retryButtonLose, scoreEarnedTextLose, _sceneController, 
+                _healthDisplay, _scoreDisplay);
+
+            _winScreen = new WinScreen(winScreenImage, retryButtonWin, scoreEarnedTextWin, enemiesMovement,
+                _scoreDisplay, _sceneController);
         }
         private void Update()
         {
