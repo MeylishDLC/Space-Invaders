@@ -23,19 +23,19 @@ namespace Core
         [Header("Movement Horizontal")] 
         [SerializeField] private float horizontalMoveValue; 
         [SerializeField] private float horizontalMoveSpeed;
-        [SerializeField] private float moveSpeedIncrease;
+        [SerializeField] private float moveSpeedIncreasePercentage;
         [SerializeField] private float enemyHorizontalMoveInterval;
         
         [Header("Movement Lower")]
         [SerializeField] private float moveLowerValue;
         [SerializeField] private float delayBetweenEnemyMoveLower;
 
-        [Header("Enemies Sound")] 
-        [SerializeField] private float initialSoundDelay;
-        [SerializeField] private float soundSpeedIncrease;
-
+        private const int moveSoundDelayMultiplier = 3;
+        
         private bool _isMovingRight;
         private float _currentMoveSpeed;
+        private float _currentSoundDelay;
+        
         private List<GameObject> _allEnemies;
         private SoundManager _soundManager;
         private FMODEvents _fmodEvents;
@@ -46,7 +46,9 @@ namespace Core
         {
             _soundManager = soundManager;
             _fmodEvents = fmodEvents;
-            _soundHandler = new MovementSoundHandler(initialSoundDelay, _soundManager, _fmodEvents);
+
+            _currentSoundDelay = horizontalMoveSpeed * moveSoundDelayMultiplier;
+            _soundHandler = new MovementSoundHandler(_currentSoundDelay, _soundManager, _fmodEvents);
         }
         private void OnValidate()
         {
@@ -132,15 +134,6 @@ namespace Core
                 await UniTask.Delay(TimeSpan.FromSeconds(enemyHorizontalMoveInterval), cancellationToken: token);
             }
         }
-        private List<GameObject> GetAllCurrentEnemies()
-        {
-            var allEnemies = GetComponentsInChildren<EnemyController>();
-            
-            var enemiesTransforms = allEnemies.Select(enemy => enemy.GetComponent<Transform>()).ToList();
-
-            var childrenList = enemiesTransforms.Select(child => child.gameObject).ToList();
-            return childrenList;
-        }
         private void SpeedUpEnemies(EnemyController deadEnemy)
         {
             deadEnemy.OnEnemyDeath -= SpeedUpEnemies;
@@ -150,19 +143,37 @@ namespace Core
                 OnAllEnemiesKilled?.Invoke();
                 return;
             }
-            
-            _currentMoveSpeed -= moveSpeedIncrease;
-            if (_currentMoveSpeed < 0)
+            var percentageAmount = _currentMoveSpeed * (moveSpeedIncreasePercentage / 100);
+
+            _currentMoveSpeed -= percentageAmount;
+            if (_currentMoveSpeed < 0.01f)
             {
-                _currentMoveSpeed = 0.0001f;
+                _currentMoveSpeed = 0.01f;
             }
-            
+
+            percentageAmount = enemyHorizontalMoveInterval * (moveSpeedIncreasePercentage / 100);
+            enemyHorizontalMoveInterval -= percentageAmount;
+            if (enemyHorizontalMoveInterval < 0.002f)
+            {
+                enemyHorizontalMoveInterval = 0.002f;
+            }
+
             _soundManager.PlayOneShot(_fmodEvents.enemyDeathSound);
-            _soundHandler.SoundDelay -= soundSpeedIncrease;
-            if (_soundHandler.SoundDelay < 0)
+            _currentSoundDelay = _currentMoveSpeed * moveSoundDelayMultiplier;
+            _soundHandler.SoundDelay = _currentSoundDelay;
+            if (_soundHandler.SoundDelay < 0.5f)
             {
-                _soundHandler.SoundDelay = 0.1f;
+                _soundHandler.SoundDelay = 0.5f;
             }
+        }
+        private List<GameObject> GetAllCurrentEnemies()
+        {
+            var allEnemies = GetComponentsInChildren<EnemyController>();
+            
+            var enemiesTransforms = allEnemies.Select(enemy => enemy.GetComponent<Transform>()).ToList();
+
+            var childrenList = enemiesTransforms.Select(child => child.gameObject).ToList();
+            return childrenList;
         }
         private void SubscribeOnEvents()
         {

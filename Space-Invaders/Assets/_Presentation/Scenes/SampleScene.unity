@@ -2425,12 +2425,10 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   horizontalMoveValue: 0.2
   horizontalMoveSpeed: 0.5
-  moveSpeedIncrease: 0.08
+  moveSpeedIncreasePercentage: 2
   enemyHorizontalMoveInterval: 0.05
   moveLowerValue: 1
   delayBetweenEnemyMoveLower: 0.03
-  initialSoundDelay: 2
-  soundSpeedIncrease: 0.03
 --- !u!1 &1702747383
 GameObject:
   m_ObjectHideFlags: 0
