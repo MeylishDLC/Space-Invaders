@@ -48,13 +48,7 @@ namespace UI
         }
         private void Start()
         {
-            _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesMovement.AllEnemies);
-            
-            _deathScreen = new DeathScreen(deathScreenImage, retryButtonLose, scoreEarnedTextLose, _sceneController, 
-                _healthDisplay, _scoreDisplay);
-
-            _winScreen = new WinScreen(winScreenImage, retryButtonWin, scoreEarnedTextWin, enemiesMovement,
-                _scoreDisplay, _sceneController);
+            InitializeUIElements();
         }
         private void Update()
         {
@@ -62,6 +56,16 @@ namespace UI
             {
                 _sceneController.ReloadScene();
             }
+        }
+        private void InitializeUIElements()
+        {
+            _scoreDisplay = new UIScoreDisplay(_healthDisplay, scoreText, enemiesMovement.AllEnemies);
+            
+            _deathScreen = new DeathScreen(deathScreenImage, retryButtonLose, scoreEarnedTextLose, _sceneController, 
+                _healthDisplay, _scoreDisplay);
+
+            _winScreen = new WinScreen(winScreenImage, retryButtonWin, scoreEarnedTextWin, enemiesMovement,
+                _scoreDisplay, _sceneController);
         }
     }
 }
