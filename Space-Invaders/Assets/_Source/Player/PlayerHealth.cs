@@ -2,8 +2,10 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Sound;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -19,9 +21,18 @@ namespace Player
 
         private bool _canTakeDamage = true;
         private SpriteRenderer _spriteRenderer;
+        private SoundManager _soundManager;
+        private FMODEvents _fmodEvents;
         private void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        [Inject]
+        public void Initialize(SoundManager soundManager, FMODEvents fmodEvents)
+        {
+            _soundManager = soundManager;
+            _fmodEvents = fmodEvents;
         }
         public void TakeDamage(int damage)
         {
@@ -36,8 +47,8 @@ namespace Player
                 healthAmount = 0;
             }
             
-            Debug.Log($"Player health: {healthAmount}");
             OnPlayerHealthChanged?.Invoke(healthAmount);
+            _soundManager.PlayOneShot(_fmodEvents.hitPlayerSound);
             BeInvincible(CancellationToken.None).Forget();
         }
         public int GetPlayerHealth()
