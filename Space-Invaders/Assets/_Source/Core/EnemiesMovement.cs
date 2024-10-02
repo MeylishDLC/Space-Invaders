@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Enemy;
+using Sound;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -29,9 +30,24 @@ namespace Core
         [SerializeField] private float moveLowerValue;
         [SerializeField] private float delayBetweenEnemyMoveLower;
 
+        [Header("Enemies Sound")] 
+        [SerializeField] private float initialSoundDelay;
+        [SerializeField] private float soundSpeedIncrease;
+
         private bool _isMovingRight;
         private float _currentMoveSpeed;
         private List<GameObject> _allEnemies;
+        private SoundManager _soundManager;
+        private FMODEvents _fmodEvents;
+        private MovementSoundHandler _soundHandler;
+
+        [Inject]
+        public void Initialize(SoundManager soundManager, FMODEvents fmodEvents)
+        {
+            _soundManager = soundManager;
+            _fmodEvents = fmodEvents;
+            _soundHandler = new MovementSoundHandler(initialSoundDelay, _soundManager, _fmodEvents);
+        }
         private void OnValidate()
         {
             if (Camera.main != null)
@@ -42,12 +58,25 @@ namespace Core
         private void Awake()
         {
             _allEnemies = GetAllCurrentEnemies();
+            _soundHandler.PlayMoveSoundCycle(_soundHandler.MoveSoundCycleCts.Token).Forget();
         }
         private void Start()
         {
             _currentMoveSpeed = horizontalMoveSpeed;
             MoveEnemiesHorizontallyCycle(CancellationToken.None).Forget();
             SubscribeOnEvents();
+        }
+        private void Update()
+        {
+            if (AllEnemiesKilled())
+            {
+                OnAllEnemiesKilled?.Invoke();
+            }
+        }
+        private void OnDestroy()
+        {
+            _soundHandler.MoveSoundCycleCts.Cancel();
+            _soundHandler.MoveSoundCycleCts.Dispose();
         }
         private async UniTask MoveEnemiesAsync(CancellationToken token)
         {
@@ -99,6 +128,7 @@ namespace Core
             foreach (var enemy in _allEnemies.Where(enemy => enemy != null))
             {
                 enemy.transform.position += new Vector3(_isMovingRight ? horizontalMoveValue : -horizontalMoveValue, 0, 0);
+                
                 await UniTask.Delay(TimeSpan.FromSeconds(enemyHorizontalMoveInterval), cancellationToken: token);
             }
         }
@@ -111,7 +141,6 @@ namespace Core
             var childrenList = enemiesTransforms.Select(child => child.gameObject).ToList();
             return childrenList;
         }
-
         private void SpeedUpEnemies(EnemyController deadEnemy)
         {
             deadEnemy.OnEnemyDeath -= SpeedUpEnemies;
@@ -126,6 +155,13 @@ namespace Core
             if (_currentMoveSpeed < 0)
             {
                 _currentMoveSpeed = 0.0001f;
+            }
+            
+            _soundManager.PlayOneShot(_fmodEvents.enemyDeathSound);
+            _soundHandler.SoundDelay -= soundSpeedIncrease;
+            if (_soundHandler.SoundDelay < 0)
+            {
+                _soundHandler.SoundDelay = 0.1f;
             }
         }
         private void SubscribeOnEvents()
@@ -143,7 +179,6 @@ namespace Core
 
         private bool AllEnemiesKilled()
         {
-            _allEnemies = GetAllCurrentEnemies();
             if (!_allEnemies.Any())
             {
                 return true;

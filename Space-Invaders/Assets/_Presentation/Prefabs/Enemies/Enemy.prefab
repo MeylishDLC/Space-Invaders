@@ -178,8 +178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ScoreAmount>k__BackingField: 30
-  minShootingInterval: 2
-  maxShootingInterval: 7
+  minShootingInterval: 1
+  maxShootingInterval: 5
   bulletPrefab: {fileID: 4549458312990692366, guid: 0feb2aeb6297b8f4b8b94fb03ac1d7f1, type: 3}
   timeBeforeDie: 0.3
 --- !u!61 &1154583321578033538

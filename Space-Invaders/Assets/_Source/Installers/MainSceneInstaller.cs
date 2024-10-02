@@ -1,6 +1,7 @@
 using Core;
 using Input;
 using Player;
+using Sound;
 using UnityEngine;
 using Zenject;
 
@@ -10,11 +11,20 @@ namespace Installers
     {
         [SerializeField] private InputListener inputListener;
         [SerializeField] private PlayerHealth playerHealth;
+        [SerializeField] private SoundManager soundManager;
         public override void InstallBindings()
         {
+            BindSoundManager();
             BindInputListener();
             BindPlayerHealth();
             BindSceneController();
+        }
+        private void BindSoundManager()
+        {
+            Container.Bind<SoundManager>().FromInstance(soundManager).AsSingle();
+
+            var child = soundManager.gameObject.transform.GetChild(0);
+            Container.Bind<FMODEvents>().FromComponentOn(child.gameObject).AsSingle();
         }
         private void BindInputListener()
         {

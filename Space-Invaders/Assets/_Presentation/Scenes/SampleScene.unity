@@ -1081,6 +1081,132 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25819302, y: 10.302664}
   m_EdgeRadius: 0
+--- !u!1 &473809859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473809860}
+  - component: {fileID: 473809861}
+  m_Layer: 0
+  m_Name: FMODEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &473809860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473809859}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 494498328}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &473809861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473809859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfa2c0ed9bd4bd9a355c41b32083c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <enemyDeathSound>k__BackingField:
+    Guid:
+      Data1: 1728192346
+      Data2: 1174870182
+      Data3: -692291397
+      Data4: -1568022694
+    Path: event:/EnemyDeath
+  <hitPlayerSound>k__BackingField:
+    Guid:
+      Data1: -1766821316
+      Data2: 1286993145
+      Data3: -1645002848
+      Data4: 1024086920
+    Path: event:/PlayerHit
+  <playerDeathSound>k__BackingField:
+    Guid:
+      Data1: -1210202169
+      Data2: 1082149122
+      Data3: -272737123
+      Data4: -819094921
+    Path: event:/PlayerDead
+  <shootSound>k__BackingField:
+    Guid:
+      Data1: -1223160099
+      Data2: 1075572254
+      Data3: -1550209635
+      Data4: -364054606
+    Path: event:/Shoot
+  <enemyWalkSound>k__BackingField:
+    Guid:
+      Data1: 774987677
+      Data2: 1271876296
+      Data3: -1859409486
+      Data4: -1594233241
+    Path: event:/EnemyMove
+--- !u!1 &494498327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494498328}
+  - component: {fileID: 494498329}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &494498328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494498327}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 473809860}
+  m_Father: {fileID: 1582107519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &494498329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494498327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9a1b4ad5b74ded9e950fc5d5c7a368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Banks:
+  - Master
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputListener: {fileID: 1801041801}
   playerHealth: {fileID: 88443490}
+  soundManager: {fileID: 494498329}
 --- !u!1 &931969097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,6 +2296,7 @@ Transform:
   - {fileID: 1801041799}
   - {fileID: 1056278629}
   - {fileID: 1170401899}
+  - {fileID: 494498328}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1595868713
@@ -2301,6 +2429,8 @@ MonoBehaviour:
   enemyHorizontalMoveInterval: 0.05
   moveLowerValue: 1
   delayBetweenEnemyMoveLower: 0.03
+  initialSoundDelay: 2
+  soundSpeedIncrease: 0.03
 --- !u!1 &1702747383
 GameObject:
   m_ObjectHideFlags: 0

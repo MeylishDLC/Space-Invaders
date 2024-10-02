@@ -21,7 +21,7 @@ namespace Combat
 
         protected override async UniTask ShootWithIntervalAsync(CancellationToken token)
         {
-            _canShoot = false;
+            CanShoot = false;
             
             if (_attackerTransform != null)
             {
@@ -31,7 +31,7 @@ namespace Combat
             var randomInterval = Random.Range(_minShootingInterval, _maxShootingInterval);
             
             await UniTask.Delay(TimeSpan.FromSeconds(randomInterval), cancellationToken: token);
-            _canShoot = true;
+            CanShoot = true;
         }
     }
 }

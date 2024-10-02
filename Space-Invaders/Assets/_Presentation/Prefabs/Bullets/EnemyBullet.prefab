@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8802989365587277654}
   - component: {fileID: 4549458312990692366}
   - component: {fileID: 7246700753150389990}
+  - component: {fileID: -7457880093714656007}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -174,3 +175,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.009835447, y: 0.06980184}
   m_EdgeRadius: 0
+--- !u!95 &-7457880093714656007
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7646722256407419684}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0083a3fa3542a994d853b6bf69595432, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
