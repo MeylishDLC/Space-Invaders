@@ -40,6 +40,10 @@ namespace Player
             OnPlayerHealthChanged?.Invoke(healthAmount);
             BeInvincible(CancellationToken.None).Forget();
         }
+        public int GetPlayerHealth()
+        {
+            return healthAmount;
+        }
         private async UniTask BeInvincible(CancellationToken token)
         {
             _canTakeDamage = false;
@@ -52,9 +56,6 @@ namespace Player
 
             _canTakeDamage = true;
         }
-        public int GetPlayerHealth()
-        {
-            return healthAmount;
-        }
+        
     }
 }
